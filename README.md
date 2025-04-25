@@ -15,5 +15,6 @@ bun install
 To run:
 
 ```bash
-bun run main.ts
+bun run start
+bun run dev
 ```
