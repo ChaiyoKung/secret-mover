@@ -27,7 +27,11 @@ const defaultSecretFiles: string[] = [
   "local.settings.json",
 ];
 
-async function main(sourceDir: string, targetDir: string, options?: { secretFiles?: string[]; dryRun?: boolean }) {
+async function copySecretFile(
+  sourceDir: string,
+  targetDir: string,
+  options?: { secretFiles?: string[]; dryRun?: boolean }
+) {
   const secretFiles = options?.secretFiles ?? defaultSecretFiles;
   const sourceFileOrDirs = await readdir(sourceDir, { withFileTypes: true, recursive: true });
   const sourceFiles = sourceFileOrDirs.filter((fileOrDir) => fileOrDir.isFile());
@@ -54,4 +58,4 @@ const sourceDirectory = "./test-data"; // Adjust as needed
 const targetDirectory = "./test-result"; // Adjust as needed
 const dryRun = true; // Set to `false` to perform actual copying
 
-await main(sourceDirectory, targetDirectory, { dryRun });
+await copySecretFile(sourceDirectory, targetDirectory, { dryRun });
