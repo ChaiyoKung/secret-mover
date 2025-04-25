@@ -1,10 +1,10 @@
 {
   "name": "secret-mover",
-  "module": "main.ts",
+  "module": "src/main.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run main.ts",
-    "dev": "bun run --watch main.ts"
+    "start": "bun run src/main.ts",
+    "dev": "bun run --watch src/main.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
