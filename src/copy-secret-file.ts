@@ -12,6 +12,7 @@ export interface CopySecretFileOptions {
 export async function copySecretFile(sourceDir: string, targetDir: string, options?: CopySecretFileOptions) {
   const secretFiles = options?.secretFiles ?? defaultSecretFiles;
 
+  console.log(`Reading secret files from '${sourceDir}'...`);
   const sourceFileOrDirs = await readdir(sourceDir, { withFileTypes: true, recursive: true });
 
   const sourceFiles = sourceFileOrDirs.filter((fileOrDir) => fileOrDir.isFile());
