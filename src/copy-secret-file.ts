@@ -16,9 +16,9 @@ export async function copySecretFile(sourceDir: string, targetDir: string, optio
   const sourceFileOrDirs = await readdir(sourceDir, { withFileTypes: true, recursive: true });
 
   const sourceFiles = sourceFileOrDirs.filter((fileOrDir) => fileOrDir.isFile());
+  const secretFileGlob = new Glob("{" + secretFiles.join(",") + "}");
   const sourceSecretFiles = sourceFiles.filter((file) => {
-    const glob = new Glob("{" + secretFiles.join(",") + "}");
-    return glob.match(file.name);
+    return secretFileGlob.match(file.name);
   });
 
   for (const sourceSecretFile of sourceSecretFiles) {
