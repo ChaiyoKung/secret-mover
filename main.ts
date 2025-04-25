@@ -27,7 +27,8 @@ const defaultSecretFiles: string[] = [
   "local.settings.json",
 ];
 
-async function main(sourceDir: string, targetDir: string, secretFiles: string[] = defaultSecretFiles) {
+async function main(sourceDir: string, targetDir: string, options?: { secretFiles?: string[]; dryRun?: boolean }) {
+  const secretFiles = options?.secretFiles ?? defaultSecretFiles;
   const sourceFileOrDirs = await readdir(sourceDir, { withFileTypes: true, recursive: true });
   const sourceFiles = sourceFileOrDirs.filter((fileOrDir) => fileOrDir.isFile());
   const sourceSecretFiles = sourceFiles.filter((file) => {
@@ -37,6 +38,12 @@ async function main(sourceDir: string, targetDir: string, secretFiles: string[] 
   for (const sourceSecretFile of sourceSecretFiles) {
     const sourceSecretFilePath = join(sourceSecretFile.parentPath, sourceSecretFile.name);
     const targetFilePath = join(targetDir, sourceSecretFile.parentPath, sourceSecretFile.name);
+
+    if (options?.dryRun) {
+      console.log(`[Dry Run] Copied secret file: '${sourceSecretFilePath}' to '${targetFilePath}'`);
+      continue;
+    }
+
     const file = Bun.file(sourceSecretFilePath);
     await Bun.write(targetFilePath, file);
     console.log(`Copied secret file: '${sourceSecretFilePath}' to '${targetFilePath}'`);
@@ -45,5 +52,6 @@ async function main(sourceDir: string, targetDir: string, secretFiles: string[] 
 
 const sourceDirectory = "./test-data"; // Adjust as needed
 const targetDirectory = "./test-result"; // Adjust as needed
+const dryRun = true; // Set to `false` to perform actual copying
 
-await main(sourceDirectory, targetDirectory);
+await main(sourceDirectory, targetDirectory, { dryRun });
