@@ -11,12 +11,15 @@ export interface CopySecretFileOptions {
 
 export async function copySecretFile(sourceDir: string, targetDir: string, options?: CopySecretFileOptions) {
   const secretFiles = options?.secretFiles ?? defaultSecretFiles;
+
   const sourceFileOrDirs = await readdir(sourceDir, { withFileTypes: true, recursive: true });
+
   const sourceFiles = sourceFileOrDirs.filter((fileOrDir) => fileOrDir.isFile());
   const sourceSecretFiles = sourceFiles.filter((file) => {
     const glob = new Glob("{" + secretFiles.join(",") + "}");
     return glob.match(file.name);
   });
+
   for (const sourceSecretFile of sourceSecretFiles) {
     const sourceSecretFilePath = join(sourceSecretFile.parentPath, sourceSecretFile.name);
     const normalizedSourceSecretFilePath = normalizePathStart(sourceDir, sourceSecretFile.parentPath);
