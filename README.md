@@ -18,3 +18,28 @@ To run:
 bun run start
 bun run dev
 ```
+
+## Example Usage
+
+Edit the source and target directories as needed in `src/main.ts` file.
+
+```ts
+// 1.
+const sourceDirectory = "./path/to/source";
+const targetDirectory = "./path/to/target";
+await copySecretFile(sourceDirectory, targetDirectory);
+```
+
+```ts
+// 2.
+const sourceDirectory = "D:/path/to/source";
+const targetDirectory = "D:/path/to/target";
+await copySecretFile(sourceDirectory, targetDirectory, { dryRun: false });
+```
+
+```ts
+// 3.
+const sourceDirectory = "D:\\path\\to\\source";
+const targetDirectory = "path/to/target";
+await copySecretFile(sourceDirectory, targetDirectory, { dryRun: true });
+```
