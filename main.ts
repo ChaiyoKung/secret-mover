@@ -23,7 +23,9 @@ const defaultSecretFiles: string[] = [
   "*.tfstate",
   "*.tfstate.*",
 
+  //
   // azure functions
+  //
   "local.settings.json",
 ];
 
