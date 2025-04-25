@@ -2,6 +2,7 @@ import { Glob } from "bun";
 import { readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { defaultSecretFiles } from "./default-secret-files";
+import { normalizePathStart } from "./normalize-path-start";
 
 export interface CopySecretFileOptions {
   secretFiles?: string[];
@@ -18,7 +19,8 @@ export async function copySecretFile(sourceDir: string, targetDir: string, optio
   });
   for (const sourceSecretFile of sourceSecretFiles) {
     const sourceSecretFilePath = join(sourceSecretFile.parentPath, sourceSecretFile.name);
-    const targetFilePath = join(targetDir, sourceSecretFile.parentPath, sourceSecretFile.name);
+    const normalizedSourceSecretFilePath = normalizePathStart(sourceDir, sourceSecretFile.parentPath);
+    const targetFilePath = join(targetDir, normalizedSourceSecretFilePath, sourceSecretFile.name);
 
     if (options?.dryRun) {
       console.log(`[Dry Run] Copied secret file: '${sourceSecretFilePath}' to '${targetFilePath}'`);
